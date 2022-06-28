@@ -1,0 +1,27 @@
+{
+  "name": "todo-crud",
+  "version": "1.0.0",
+  "description": "crud em memória",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jvsr18/todo-crud.git"
+  },
+  "author": "João Vitor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jvsr18/todo-crud/issues"
+  },
+  "homepage": "https://github.com/jvsr18/todo-crud#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
