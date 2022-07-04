@@ -1,51 +1,80 @@
 const todoListService = require("../services/todoList.service");
+const mongoose = require("mongoose");
 
-const getAllTasks = (req, res) => {
-  const response = todoListService.findAll();
-  res.send({ data: response });
-};
+const getAllTasks = async (req, res) => {
+  try {
+    const response = await todoListService.findAll();
 
-const getTaskById = (req, res) => {
-  const id = Number(req.params.id);
-  const response = todoListService.findById(id);
-
-  if (!response) {
-    res.status(400).send({ message: "Tarefa não encontrada" });
-  } else {
-    res.status(200).send({ data: response, message: "Tarefa encontrada" });
+    if (response.length == 0) {
+      return res
+        .status(404)
+        .send({ message: "Não existe nenhuma tarefa cadastrada" });
+    }
+    res.send({ data: response });
+  } catch (err) {
+    res.status(500).send({ err: err.message });
   }
 };
 
-const create = (req, res) => {
-  const newTask = req.body;
-  const response = todoListService.create(newTask);
+const getTaskById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const response = await todoListService.findById(id);
 
-  if (!newTask.nome || !newTask.prioridade) {
-    res.status(400).send({ message: "Dados da tarefa incompletos" });
-  } else {
+    res.status(200).send({ data: response, message: "Tarefa encontrada" });
+  } catch (err) {
+    res.status(500).send({ err: err.message });
+  }
+};
+
+const create = async (req, res) => {
+  try {
+    const newTask = req.body;
+    const response = await todoListService.create(newTask);
     res
       .status(201)
       .send({ data: response, message: "Tarefa criada com sucesso" });
+  } catch (err) {
+    res.status(500).send({ err: err.message });
   }
 };
 
-const update = (req, res) => {
-  const id = Number(req.params.id);
-  const updatedTask = req.body;
-  const response = todoListService.update(id, updatedTask);
-  if (response !== undefined) {
+const update = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedTask = req.body;
+    const response = await todoListService.update(id, updatedTask);
     res
       .status(200)
       .send({ data: response, message: "Tarefa editada com sucesso" });
-  } else {
-    res.status(400).send({ message: "Tarefa não encontrada" });
+  } catch (err) {
+    res.status(500).send({ err: err.message });
   }
 };
 
-const deleteTask = (req, res) => {
-  const id = Number(req.params.id);
-  const response = todoListService.deleteTask(id);
-  res.send({ data: response, message: "Tarefa excluída com sucesso" });
+const updatePatch = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedTask = req.body;
+    const response = await todoListService.updatePatch(id, updatedTask);
+    res
+      .status(200)
+      .send({ data: response, message: "Tarefa editada com sucesso" });
+  } catch (err) {
+    res.status(500).send({ err: err.message });
+  }
+};
+
+const deleteTask = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const response = await todoListService.deleteTask(id);
+    res
+      .status(200)
+      .send({ data: response, message: "Tarefa excluída com sucesso" });
+  } catch (err) {
+    res.status(500).send({ err: err.message });
+  }
 };
 
 module.exports = {
@@ -53,5 +82,6 @@ module.exports = {
   getTaskById,
   create,
   update,
+  updatePatch,
   deleteTask,
 };

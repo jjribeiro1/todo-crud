@@ -1,67 +1,22 @@
-const list = [
-  {
-    id: 1,
-    nome: "ir ao mercado",
-    prioridade: "baixa",
-  },
-  {
-    id: 2,
-    nome: "beber água",
-    prioridade: "média",
-  },
-  {
-    id: 3,
-    nome: "estudar",
-    prioridade: "alta",
-  },
-];
+const List = require("../model/List");
 
-let idNewTask = 4;
+const findAll = async () => await List.find();
 
-const findAll = () => list;
+const findById = async (id) => await List.findById(id);
 
-const findById = (id) => {
-  let indice = 0;
+const create = async (newTask) => await List.create(newTask);
 
-  const taskbyid = list.map((task, index) => {
-    if (task.id === id) {
-      indice = index;
-      return task;
-    }
-  });
-  return taskbyid[indice];
-};
+const update = async (id, updatedTask) => await List.findByIdAndUpdate(id, updatedTask).setOptions({returnOriginal: false});
 
-const create = (newTask) => {
-  newTask.id = idNewTask;
-  idNewTask++;
-  list.push(newTask);
-  return newTask;
-};
+const updatePatch = async (id, updatedTask) => await List.findByIdAndUpdate(id, updatedTask).setOptions({returnOriginal: false});
 
-const update = (id, updatedTask) => {
-
-  list.forEach((task, index) => {
-    if (task.id === id) {
-      updatedTask.id = id;
-      list[index] = updatedTask;
-    }
-  });
-  return list;
-};
-
-const deleteTask = (id) => {
-  list.forEach((task, index) => {
-    if (task.id === id) {
-      list.splice(index, 1);
-    }
-  });
-};
+const deleteTask = async (id) => await List.findByIdAndDelete(id);
 
 module.exports = {
   findAll,
   findById,
   create,
   update,
+  updatePatch,
   deleteTask,
 };

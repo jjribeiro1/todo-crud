@@ -1,0 +1,14 @@
+[
+  {
+    "nome": "ir ao mercado",
+    "prioridade": "baixa"
+  },
+  {
+    "nome": "beber água",
+    "prioridade": "média"
+  },
+  {
+    "nome": "estudar",
+    "prioridade": "alta"
+  }
+]
