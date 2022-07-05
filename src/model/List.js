@@ -5,6 +5,7 @@ const ListSchema = new mongoose.Schema({
   prioridade: { type: "string", required: true },
 });
 
-const List = mongoose.model("List", ListSchema, "list");
+// terceiro parametro pra evitar pluralização da coleção no mongoose
+const List = mongoose.model("list", ListSchema, "list" );
 
 module.exports = List;
